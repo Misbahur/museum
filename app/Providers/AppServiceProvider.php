@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Social;
+use App\Models\link;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,5 +27,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        $socials = Social::all();
+        $links = link::all();
+        View::share(['socials' => $socials, 'links' => $links]);
     }
 }

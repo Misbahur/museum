@@ -115,28 +115,32 @@
                     <div class="flex flex-col">
                         <span class="font-bold text-gray-500 uppercase mt-4 lg:mt-0 mb-2">Link Direktory</span>
                         <div class="grid grid-flow-col grid-cols-2 grid-rows-3 gap-2">
-                        <span class="my-2"><a href="https://banyuwangitourism.com/"
-                                class="text-base font-semibold text-gray-600 text-md hover:text-blue-500">Banyuwangi
-                                Tourism
+                        @foreach ($links as $item)
+                            <span class="my-2"><a href="{{ $item->link }}"
+                                class="text-base font-semibold text-gray-600 text-md hover:text-blue-500">{{ $item->title }}
                             </a></span>
-                        <span class="my-2"><a href="http://disbudpar.banyuwangikab.go.id/"
+                        @endforeach
+                        {{-- <span class="my-2"><a href="http://disbudpar.banyuwangikab.go.id/"
                                 class="text-base font-semibold text-gray-600  text-md hover:text-blue-500">Dinas
                                 Kebudayan dan Pariwisata Banyuwangi
                             </a></span>
                         <span class="my-2"><a href="http://dkb.or.id/"
                                 class="text-base font-semibold text-gray-600 text-md hover:text-blue-500">Dewan Kesenian
                                 Blambangan
-                            </a></span>
+                            </a></span> --}}
                         </div>
                     </div>
                     <div class="flex flex-col">
                         <span class="font-bold text-gray-500 uppercase mt-4 lg:mt-0 mb-2">Contact & Social Media</span>
                         <div class="grid grid-flow-col grid-cols-2 grid-rows-3 gap-2">
-                        <span class="flex my-2"><img class="h-6 w-6 mr-2"
-                                src="{{ asset('dist/images/whatsapp.png') }}" alt="Whatsapp"><a
-                                href="https://api.whatsapp.com/send/?phone=6281331992911&text&app_absent=0"
-                                class="text-base font-semibold text-gray-600  text-md hover:text-blue-500">+62-8131-1992-911</a></span>
-                        <span class="flex my-2"><img class="h-6 w-6 mr-2"
+                        @foreach ($socials as $item)
+                            <span class="flex my-2"><img class="h-6 w-6 mr-2"
+                                src="{{ asset('storage/'.$item->logo) }}" alt="Whatsapp"><a
+                                href="{{ $item->link }}"
+                                class="text-base font-semibold text-gray-600  text-md hover:text-blue-500">{{ $item->title }}</a></span>
+                        @endforeach
+                        
+                        {{-- <span class="flex my-2"><img class="h-6 w-6 mr-2"
                                 src="{{ asset('dist/images/instagram.png') }}" alt="Instagram"><a
                                 href="https://www.instagram.com/museumblambangan/"
                                 class="text-base font-semibold text-gray-600  text-md hover:text-blue-500">Museumblambangan</a></span>
@@ -144,7 +148,7 @@
                                 src="{{ asset('dist/images/youtube.png') }}" alt="wa"><a
                                 href="https://www.youtube.com/channel/UCnt6a7DdzfngUwdSR8AhaNg"
                                 class="text-base font-semibold text-gray-600  text-md hover:text-blue-500">Banyuwangi
-                                Tourism</a></span>
+                                Tourism</a></span> --}}
                         </div>
                     </div>
                 </div>
