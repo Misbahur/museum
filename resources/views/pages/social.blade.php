@@ -44,7 +44,7 @@
             </div>
         </div>
         <!-- BEGIN: Data List -->
-        <div class="intro-y col-span-6 overflow-auto lg:overflow-visible">
+        <div class="intro-y col-span-6 overflow-auto">
             <table class="table table-report -mt-2">
                 <thead>
                     <tr>

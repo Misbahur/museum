@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use App\Models\Transaksi;
 use App\Models\Sesi;
 use App\Models\Kategori;
 use App\Models\Pengunjung;
@@ -39,7 +39,7 @@ class BookingController extends Controller
     public function index()
     {
         //
-        $bookings = Transaksi::orderBy('tanggal_berkunjung', 'ASC')->get();
+        $bookings = Transaksi::orderBy('tanggal_berkunjung', 'ASC')->paginate(15);
         return view('pages.daftarbooking', ['bookings' => $bookings]);
     }
 

@@ -57,6 +57,7 @@
                         <th class="text-center whitespace-nowrap">Sesi Kunjungan</th>
                         <th class="text-center whitespace-nowrap">Jumlah Pengunjung</th>
                         <th class="text-center whitespace-nowrap">Kode Booking</th>
+                        <th class="text-center whitespace-nowrap">Dokumen</th>
                         <th class="text-center whitespace-nowrap">STATUS Booking</th>
                         <th class="text-center whitespace-nowrap">ACTIONS</th>
                     </tr>
@@ -82,6 +83,13 @@
                             <td class="text-center">{{ $item->jumlah_pengunjung }}</td>
                             <td>
                                 <div class="text-center font-bold whitespace-nowrap">{{ $item->barcode }}</div>
+                            </td>
+                            <td>
+                                @if ($item->doc_persyaratan->doc)
+                                    <a href="{{ asset('storage/'.$item->doc_persyaratan->doc) }}">Lihat Dokumen</a>
+                                @else
+                                    <a href="#">Tidak Ada Dokumen</a>
+                                @endif
                             </td>
                             <td class="w-40">
                                 <div class="flex items-center justify-center">
@@ -113,43 +121,7 @@
         <!-- END: Data List -->
         <!-- BEGIN: Pagination -->
         <div class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center">
-            <ul class="pagination">
-                <li>
-                    <a class="pagination__link" href="">
-                        <i class="w-4 h-4" data-feather="chevrons-left"></i>
-                    </a>
-                </li>
-                <li>
-                    <a class="pagination__link" href="">
-                        <i class="w-4 h-4" data-feather="chevron-left"></i>
-                    </a>
-                </li>
-                <li>
-                    <a class="pagination__link" href="">...</a>
-                </li>
-                <li>
-                    <a class="pagination__link" href="">1</a>
-                </li>
-                <li>
-                    <a class="pagination__link pagination__link--active" href="">2</a>
-                </li>
-                <li>
-                    <a class="pagination__link" href="">3</a>
-                </li>
-                <li>
-                    <a class="pagination__link" href="">...</a>
-                </li>
-                <li>
-                    <a class="pagination__link" href="">
-                        <i class="w-4 h-4" data-feather="chevron-right"></i>
-                    </a>
-                </li>
-                <li>
-                    <a class="pagination__link" href="">
-                        <i class="w-4 h-4" data-feather="chevrons-right"></i>
-                    </a>
-                </li>
-            </ul>
+            {{ $bookings->links() }}
             <select class="w-20 form-select box mt-3 sm:mt-0">
                 <option>10</option>
                 <option>25</option>

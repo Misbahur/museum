@@ -42,47 +42,53 @@
             <table class="table table-report -mt-2">
                 <thead>
                     <tr>
-                        <th class="whitespace-nowrap">IMAGES</th>
-                        <th class="whitespace-nowrap">PRODUCT NAME</th>
-                        <th class="text-center whitespace-nowrap">STOCK</th>
-                        <th class="text-center whitespace-nowrap">STATUS</th>
-                        <th class="text-center whitespace-nowrap">ACTIONS</th>
+                        <th class="whitespace-nowrap">Nama</th>
+                        <th class="whitespace-nowrap">Email</th>
+                        <th class="text-center whitespace-nowrap">Tanggal Kunjungan</th>
+                        <th class="text-center whitespace-nowrap">Kategori Pengunjung</th>
+                        <th class="text-center whitespace-nowrap">Sesi Kunjungan</th>
+                        <th class="text-center whitespace-nowrap">Jumlah Pengunjung</th>
+                        <th class="text-center whitespace-nowrap">Kode Booking</th>
+                        <th class="text-center whitespace-nowrap">Dokumen</th>
+                        <th class="text-center whitespace-nowrap">STATUS Booking</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (array_slice($fakers, 0, 9) as $faker)
+                    @foreach ($bookings as $item)
                         <tr class="intro-x">
-                            <td class="w-40">
-                                <div class="flex">
-                                    <div class="w-10 h-10 image-fit zoom-in">
-                                        <img alt="Rubick Tailwind HTML Admin Template" class="tooltip rounded-full" src="{{ asset('dist/images/' . $faker['images'][0]) }}" title="Uploaded at {{ $faker['dates'][0] }}">
-                                    </div>
-                                    <div class="w-10 h-10 image-fit zoom-in -ml-5">
-                                        <img alt="Rubick Tailwind HTML Admin Template" class="tooltip rounded-full" src="{{ asset('dist/images/' . $faker['images'][1]) }}" title="Uploaded at {{ $faker['dates'][0] }}">
-                                    </div>
-                                    <div class="w-10 h-10 image-fit zoom-in -ml-5">
-                                        <img alt="Rubick Tailwind HTML Admin Template" class="tooltip rounded-full" src="{{ asset('dist/images/' . $faker['images'][2]) }}" title="Uploaded at {{ $faker['dates'][0] }}">
-                                    </div>
-                                </div>
+                            <td>
+                                <div class="font-medium text-gray-700 whitespace-nowrap">{{ $item->pengunjung->nama }}</div>
                             </td>
                             <td>
-                                <a href="" class="font-medium whitespace-nowrap">{{ $faker['products'][0]['name'] }}</a>
-                                <div class="text-gray-600 text-xs whitespace-nowrap mt-0.5">{{ $faker['products'][0]['category'] }}</div>
+                                <div class="font-medium text-gray-700 whitespace-nowrap">{{ $item->pengunjung->email }}</div>
                             </td>
-                            <td class="text-center">{{ $faker['stocks'][0] }}</td>
+                            <td>
+                                <div class="font-medium text-gray-700 whitespace-nowrap">{{ $item->tanggal_berkunjung }}</div>
+                            </td>
+                            <td>
+                                <div class="font-medium text-gray-700 whitespace-nowrap">{{ $item->kategori->nama }}</div>
+                            </td>
+                            <td>
+                                <div class="font-medium whitespace-nowrap">{{ $item->sesi->nama }}</div>
+                            </td>
+                            <td class="text-center">{{ $item->jumlah_pengunjung }}</td>
+                            <td>
+                                <div class="text-center font-bold whitespace-nowrap">{{ $item->barcode }}</div>
+                            </td>
+                            <td>
+                                @if ($item->doc_persyaratan->doc)
+                                    <a href="{{ asset('storage/'.$item->doc_persyaratan->doc) }}">Lihat Dokumen</a>
+                                @else
+                                    <a href="#">Tidak Ada Dokumen</a>
+                                @endif
+                            </td>
                             <td class="w-40">
-                                <div class="flex items-center justify-center {{ $faker['true_false'][0] ? 'text-theme-9' : 'text-theme-6' }}">
-                                    <i data-feather="check-square" class="w-4 h-4 mr-2"></i> {{ $faker['true_false'][0] ? 'Active' : 'Inactive' }}
-                                </div>
-                            </td>
-                            <td class="table-report__action w-56">
-                                <div class="flex justify-center items-center">
-                                    <a class="flex items-center mr-3" href="javascript:;">
-                                        <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit
-                                    </a>
-                                    <a class="flex items-center text-theme-6" href="javascript:;" data-toggle="modal" data-target="#delete-confirmation-modal">
-                                        <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete
-                                    </a>
+                                <div class="flex items-center justify-center">
+                                    @if ($item->status == "belum")
+                                    <i data-feather="check-square" class="w-4 h-4 mr-2 text-theme-6"></i> <span class="text-theme-6">{{ $item->status}}</span>
+                                    @else
+                                    <i data-feather="check-square" class="w-4 h-4 mr-2 text-theme-9"></i> <span class="text-theme-9">{{ $item->status}}</span>
+                                    @endif
                                 </div>
                             </td>
                         </tr>
@@ -93,43 +99,7 @@
         <!-- END: Data List -->
         <!-- BEGIN: Pagination -->
         <div class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center">
-            <ul class="pagination">
-                <li>
-                    <a class="pagination__link" href="">
-                        <i class="w-4 h-4" data-feather="chevrons-left"></i>
-                    </a>
-                </li>
-                <li>
-                    <a class="pagination__link" href="">
-                        <i class="w-4 h-4" data-feather="chevron-left"></i>
-                    </a>
-                </li>
-                <li>
-                    <a class="pagination__link" href="">...</a>
-                </li>
-                <li>
-                    <a class="pagination__link" href="">1</a>
-                </li>
-                <li>
-                    <a class="pagination__link pagination__link--active" href="">2</a>
-                </li>
-                <li>
-                    <a class="pagination__link" href="">3</a>
-                </li>
-                <li>
-                    <a class="pagination__link" href="">...</a>
-                </li>
-                <li>
-                    <a class="pagination__link" href="">
-                        <i class="w-4 h-4" data-feather="chevron-right"></i>
-                    </a>
-                </li>
-                <li>
-                    <a class="pagination__link" href="">
-                        <i class="w-4 h-4" data-feather="chevrons-right"></i>
-                    </a>
-                </li>
-            </ul>
+            {{ $bookings->links() }}
             <select class="w-20 form-select box mt-3 sm:mt-0">
                 <option>10</option>
                 <option>25</option>

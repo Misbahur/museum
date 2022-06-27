@@ -15,7 +15,8 @@ class CaraBoookController extends Controller
      */
     public function hajar()
     {
-        $caras = CaraBoook::orderBy('created_at', 'ASC');
+        $caras = CaraBoook::orderBy('created_at', 'ASC')->get();
+        // dd($caras);
         return view('cara_booking', ['caras' => $caras]);
     }
     public function index()

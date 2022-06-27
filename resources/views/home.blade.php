@@ -258,7 +258,7 @@
         </div>
     </section>
 
-    <section class="container px-4 py-10 mx-auto lg:h-128 lg:space-x-8 lg:flex lg:items-center">
+    <section class="max-w-7xl container px-4 py-10 mx-auto lg:h-128 lg:space-x-8 lg:flex lg:items-center">
         <div data-aos="fade-up-right" data-aos-duration="6000"
             class="w-full text-center lg:text-left lg:w-1/2 lg:-mt-8">
             <h1 class="text-3xl leading-snug text-gray-800 dark:text-gray-200 lg:text-4xl">

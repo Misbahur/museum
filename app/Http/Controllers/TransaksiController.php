@@ -24,7 +24,8 @@ class TransaksiController extends Controller
 
     public function riwayat()
     {
-        return view('pages.riwayat');
+        $bookings = Transaksi::where('status', 'selesai')->paginate(15);
+        return view('pages.riwayat', ['bookings' => $bookings]);
     }
 
     /**

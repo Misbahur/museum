@@ -10,14 +10,14 @@
             </div>
         </div>
     </section>
-    <section class="mx-auto w-full lg:items-center mb-5 lg:mb-20">
+    <section class="mx-auto max-w-7xl lg:items-center my-5 lg:mb-20 mt-10">
         <div class="container mx-auto pt-10 lg:pt-0">
             <div class="justify-start">
                 <ol class="list-decimal font-base text-gray-500 text-xl">
                     @foreach ($caras as $item)
-                    <li data-aos="fade-right" data-aos-delay="300">{{ $item->keterangan }}</li>
+                    <li class="font-bold text-black text-2xl" data-aos="fade-right" data-aos-delay="300">{{  $item->keterangan }}</li>
                     <div data-aos="fade-right" data-aos-delay="400" class="my-2 mx-2">
-                    <img class="object-fill lg:max-h-screen w-full" src="{{ $item->foto }}" alt="">
+                    <img class="object-fill" src="{{ asset('storage/'.$item->foto) }}" alt="">
                     </div>
                     @endforeach
                 </ol>
