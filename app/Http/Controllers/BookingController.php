@@ -89,6 +89,17 @@ class BookingController extends Controller
         $doc_id = doc_persyaratan::create($doc)->id;
         }
 
+        if ($request->hasFile('doc')) {
+        $filenameWithExt = $request->file('doc')->getClientOriginalName ();
+        // Get Filename
+        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+        // Get just Extension
+        $extension = $request->file('doc')->getClientOriginalExtension();
+        // Filename To store
+        $fileNameToStore = $filename. '_'. Carbon::now().'.'.$extension;
+        $path = $request->file('doc')->storeAs('Document', $fileNameToStore, 'public');
+        }
+
         $cekbooking = Transaksi::whereDate('tanggal_berkunjung', date('Y-m-d', strtotime($request->tanggal_berkunjung)))->count();
         $cekbooking = $cekbooking+1;
         $barcode = 'MBLB'.date("Ymd",strtotime($request->tanggal_berkunjung)).$cekbooking;
