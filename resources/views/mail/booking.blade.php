@@ -41,8 +41,7 @@
                                 <center>
                                     <h2 style="color: black; margin-top:20px;">Kode Booking Anda : {{ $mailData['barcode'] }}</h2>
                                     <p style="color: black; margin-top:10px; margin-bottom: 10px;">Atau Pindai Kode QR Berikut : </p>
-                                    {{-- {{ QrCode::size(250)->generate($mailData['barcode']); }} --}}
-                                    <img src="{!!$message->embedData($mailData['barcode'], 'QrCode.png', 'image/png')!!}">
+                                    {{ QrCode::size(250)->generate($mailData['barcode']); }}
                                     <p style="color: black; margin-top:10px; margin-bottom: 10px;">A/n. {{ $mailData['nama'] }}</p>
                                     <a href="{{ route('cekkode',['kode' => $mailData['barcode']] )}}" style="background-color:#50C594;border-radius:4px;color:#ffffff;display:inline-block;font-size:13px;font-weight:600;line-height:44px;text-align:center;text-decoration:none;text-transform: uppercase; padding: 0 30px; margin-bottom: 30px;">Cek Status Booking</a>
                                 </center>
