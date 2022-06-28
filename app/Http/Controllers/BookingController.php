@@ -131,6 +131,7 @@ class BookingController extends Controller
             'jumlah_pengunjung' => $request->input('jumlah_orang'),
             'status' => 'belum'
         ];
+        // $qrcode = QrCode::size(250)->generate($barcode);
         Mail::to($request->input('email'))->send(new BookingMail($mailData));
 
         if($booking){
