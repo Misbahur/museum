@@ -85,7 +85,7 @@
                                 <div class="text-center font-bold whitespace-nowrap">{{ $item->barcode }}</div>
                             </td>
                             <td>
-                                @if ($item->doc_persyaratan->doc)
+                                @if (!empty($item->doc_persyaratan->doc))
                                     <a href="{{ asset('storage/'.$item->doc_persyaratan->doc) }}">Lihat Dokumen</a>
                                 @else
                                     <a href="#">Tidak Ada Dokumen</a>
