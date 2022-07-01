@@ -3,7 +3,7 @@ version: '3'
 services:
     laravel.test:
         build:
-            context: ./vendor/laravel/sail/runtimes/8.0
+            context: ./docker/8.0
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
@@ -29,7 +29,7 @@ services:
             - '${FORWARD_DB_PORT:-3306}:3306'
         environment:
             MYSQL_ROOT_PASSWORD: 'mr'
-            MYSQL_DATABASE: 'midone'
+            MYSQL_DATABASE: 'museum'
             MYSQL_USER: 'sail'
             MYSQL_PASSWORD: 'password'
             MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'

@@ -5,69 +5,133 @@
 @endsection
 
 @section('subcontent')
-    <!-- BEGIN: HTML Table Data -->
-    <div class="intro-y box p-5 mt-5">
-        <div class="flex flex-col sm:flex-row sm:items-end xl:items-start">
-            <form id="tabulator-html-filter-form" class="xl:flex sm:mr-auto" >
-                <div class="sm:flex items-center sm:mr-4">
-                    <label class="w-12 flex-none xl:w-auto xl:flex-initial mr-2">Field</label>
-                    <select id="tabulator-html-filter-field" class="form-select w-full sm:w-32 xxl:w-full mt-2 sm:mt-0 sm:w-auto">
-                        <option value="name">Name</option>
-                        <option value="category">Category</option>
-                        <option value="remaining_stock">Remaining Stock</option>
-                    </select>
+    <h2 class="intro-y text-lg font-medium mt-10">Laporan Booking Museum</h2>
+    <div class="grid grid-cols-12 gap-6 mt-5">
+        <div class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
+            <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0 mr-2">
+                <div class="w-56 relative text-gray-700 dark:text-gray-300">
+                    <input type="text" class="form-control w-56 box pr-10 placeholder-theme-13" placeholder="Search...">
+                    <i class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" data-feather="search"></i>
                 </div>
-                <div class="sm:flex items-center sm:mr-4 mt-2 xl:mt-0">
-                    <label class="w-12 flex-none xl:w-auto xl:flex-initial mr-2">Type</label>
-                    <select id="tabulator-html-filter-type" class="form-select w-full mt-2 sm:mt-0 sm:w-auto" >
-                        <option value="like" selected>like</option>
-                        <option value="=">=</option>
-                        <option value="<">&lt;</option>
-                        <option value="<=">&lt;=</option>
-                        <option value=">">></option>
-                        <option value=">=">>=</option>
-                        <option value="!=">!=</option>
-                    </select>
+            </div>
+            <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0 mx-2">
+                <div class="w-56 relative text-gray-700 dark:text-gray-300">
+                    <input class="datepicker form-control w-56 block mx-auto" data-single-mode="true">
                 </div>
-                <div class="sm:flex items-center sm:mr-4 mt-2 xl:mt-0">
-                    <label class="w-12 flex-none xl:w-auto xl:flex-initial mr-2">Value</label>
-                    <input id="tabulator-html-filter-value" type="text" class="form-control sm:w-40 xxl:w-full mt-2 sm:mt-0"  placeholder="Search...">
-                </div>
-                <div class="mt-2 xl:mt-0">
-                    <button id="tabulator-html-filter-go" type="button" class="btn btn-primary w-full sm:w-16" >Go</button>
-                    <button id="tabulator-html-filter-reset" type="button" class="btn btn-secondary w-full sm:w-16 mt-2 sm:mt-0 sm:ml-1" >Reset</button>
-                </div>
-            </form>
-            <div class="flex mt-5 sm:mt-0">
-                <button id="tabulator-print" class="btn btn-outline-secondary w-1/2 sm:w-auto mr-2">
-                    <i data-feather="printer" class="w-4 h-4 mr-2"></i> Print
+            </div>
+            <button class="btn btn-primary shadow-md ">Cari Data</button>
+            <div class="hidden md:block mx-auto text-gray-600"></div>
+            <div class="dropdown">
+                <button class="dropdown-toggle btn px-2 box text-gray-700 dark:text-gray-300" aria-expanded="false">
+                    <span class="w-5 h-5 flex items-center justify-center">
+                        <i class="w-4 h-4" data-feather="plus"></i>
+                    </span>
                 </button>
-                <div class="dropdown w-1/2 sm:w-auto">
-                    <button class="dropdown-toggle btn btn-outline-secondary w-full sm:w-auto" aria-expanded="false">
-                        <i data-feather="file-text" class="w-4 h-4 mr-2"></i> Export <i data-feather="chevron-down" class="w-4 h-4 ml-auto sm:ml-2"></i>
-                    </button>
-                    <div class="dropdown-menu w-40">
-                        <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
-                            <a id="tabulator-export-csv" href="javascript:;" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
-                                <i data-feather="file-text" class="w-4 h-4 mr-2"></i> Export CSV
-                            </a>
-                            <a id="tabulator-export-json" href="javascript:;" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
-                                <i data-feather="file-text" class="w-4 h-4 mr-2"></i> Export JSON
-                            </a>
-                            <a id="tabulator-export-xlsx" href="javascript:;" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
-                                <i data-feather="file-text" class="w-4 h-4 mr-2"></i> Export XLSX
-                            </a>
-                            <a id="tabulator-export-html" href="javascript:;" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
-                                <i data-feather="file-text" class="w-4 h-4 mr-2"></i> Export HTML
-                            </a>
-                        </div>
+                <div class="dropdown-menu w-40">
+                    <div class="dropdown-menu__content box dark:bg-dark-1 p-2">
+                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                            <i data-feather="printer" class="w-4 h-4 mr-2"></i> Print
+                        </a>
+                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                            <i data-feather="file-text" class="w-4 h-4 mr-2"></i> Export to Excel
+                        </a>
+                        <a href="" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md">
+                            <i data-feather="file-text" class="w-4 h-4 mr-2"></i> Export to PDF
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="overflow-x-auto scrollbar-hidden">
-            <div id="tabulator" class="mt-5 table-report table-report--tabulator"></div>
+        <!-- BEGIN: Data List -->
+        <div class="intro-y col-span-12 overflow-auto lg:overflow-visible">
+             <div class="col-span-12 lg:col-span-6">
+            @include('components.alert')
+             </div>
+            <table class="table table-report -mt-2 w-full md:w-auto">
+                <thead>
+                    <tr>
+                        <th class="whitespace-nowrap">Nama</th>
+                        <th class="whitespace-nowrap">Email</th>
+                        <th class="text-center whitespace-nowrap">Tanggal Kunjungan</th>
+                        <th class="text-center whitespace-nowrap">Kategori Pengunjung</th>
+                        <th class="text-center whitespace-nowrap">Sesi Kunjungan</th>
+                        <th class="text-center whitespace-nowrap">Jumlah Pengunjung</th>
+                        <th class="text-center whitespace-nowrap">Kode Booking</th>
+                        <th class="text-center whitespace-nowrap">Dokumen</th>
+                        <th class="text-center whitespace-nowrap">STATUS Booking</th>
+                        <th class="text-center whitespace-nowrap">ACTIONS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($bookings as $item)
+                        <tr class="intro-x">
+                            <td>
+                                <div class="font-medium text-gray-700 whitespace-nowrap">{{ $item->pengunjung->nama }}</div>
+                            </td>
+                            <td>
+                                <div class="font-medium text-gray-700 whitespace-nowrap">{{ $item->pengunjung->email }}</div>
+                            </td>
+                            <td>
+                                <div class="font-medium text-gray-700 whitespace-nowrap">{{ $item->tanggal_berkunjung }}</div>
+                            </td>
+                            <td>
+                                <div class="font-medium text-gray-700 whitespace-nowrap">{{ $item->kategori->nama }}</div>
+                            </td>
+                            <td>
+                                <div class="font-medium whitespace-nowrap">{{ $item->sesi->nama }}</div>
+                            </td>
+                            <td class="text-center">{{ $item->jumlah_pengunjung }}</td>
+                            <td>
+                                <div class="text-center font-bold whitespace-nowrap">{{ $item->barcode }}</div>
+                            </td>
+                            <td>
+                                @empty($item->doc_persyaratan->doc)
+                                    <a href="#">Tidak Ada Dokumen</a>
+                                @endempty
+
+                                @if (!empty($item->doc_persyaratan->doc))
+                                    <a href="{{ asset('storage/'.$item->doc_persyaratan->doc) }}" target="_blank">Lihat Dokumen</a>
+
+                                @endif
+                            </td>
+                            <td class="w-40">
+                                <div class="flex items-center justify-center">
+                                    @if ($item->status == "belum")
+                                    <i data-feather="check-square" class="w-4 h-4 mr-2 text-theme-6"></i> <span class="text-theme-6">{{ $item->status}}</span>
+                                    @else
+                                    <i data-feather="check-square" class="w-4 h-4 mr-2 text-theme-9"></i> <span class="text-theme-9">{{ $item->status}}</span>
+                                    @endif
+                                </div>
+                            </td>
+                            <td class="table-report__action w-56">
+                                <form action="{{ route('bookingdelete',$item->id) }}" method="post" >
+                                    @csrf
+                                <div class="flex justify-center items-center">
+                                    <a class="flex items-center mr-3" href="{{ route('bookingedit', $item->id) }}">
+                                        <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit
+                                    </a>
+                                    <button type="submit" class="flex items-center text-theme-6" href="javascript:;">
+                                        <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete
+                                    </button>
+                                </div>
+                                    </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
+        <!-- END: Data List -->
+        <!-- BEGIN: Pagination -->
+        <div class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center">
+            {{ $bookings->links() }}
+            <select class="w-20 form-select box mt-3 sm:mt-0">
+                <option>10</option>
+                <option>25</option>
+                <option>35</option>
+                <option>50</option>
+            </select>
+        </div>
+        <!-- END: Pagination -->
     </div>
-    <!-- END: HTML Table Data -->
 @endsection

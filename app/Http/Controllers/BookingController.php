@@ -25,7 +25,8 @@ class BookingController extends Controller
     {
         $kategoris = Kategori::all();
         $sesis = Sesi::all();
-        return view('home', ['kategoris' => $kategoris, 'sesis' => $sesis]);
+        $mintanggal = Carbon::now()->format('Y-m-d');
+        return view('home', ['kategoris' => $kategoris, 'sesis' => $sesis, 'mintanggal' => $mintanggal]);
     }
 
     public function cekkode(Request $request)
@@ -66,9 +67,9 @@ class BookingController extends Controller
         // dd($request->all());
         $request->validate([
             'nama' => 'required',
-            'email' => 'required',
-            'alamat' => 'required',
-            'jumlah_orang' => 'required',
+            'email' => 'required|email',
+            'alamat' => 'required|min:3',
+            'jumlah_orang' => 'required|numeric|max:50|min:1',
             'tanggal_berkunjung' => 'required',
             'kategori' => 'required',
             'sesi' => 'required'
@@ -82,15 +83,11 @@ class BookingController extends Controller
         ]);
         $pengunjung_id = Pengunjung::create($pengunjung)->id;
 
-        if(!empty($request->input('doc'))){
-            $doc = ([
-            'doc' => $request->input('doc'),
-            'kategori_id' => $request->input('kategori') 
-            ]);
-        $doc_id = doc_persyaratan::create($doc)->id;
-        }
+        $cekbooking = Transaksi::whereDate('tanggal_berkunjung', date('Y-m-d', strtotime($request->tanggal_berkunjung)))->count();
+        $cekbooking = $cekbooking+1;
+        $barcode = 'MBLB'.date("Ymd",strtotime($request->tanggal_berkunjung)).$cekbooking;
 
-        if ($request->hasFile('doc')) {
+        if($request->hasFile('doc')) {
         $filenameWithExt = $request->file('doc')->getClientOriginalName ();
         // Get Filename
         $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
@@ -99,13 +96,16 @@ class BookingController extends Controller
         // Filename To store
         $fileNameToStore = $filename. '_'. Carbon::now().'.'.$extension;
         $path = $request->file('doc')->storeAs('Document', $fileNameToStore, 'public');
+         $doc = ([
+            'doc' => $path,
+            'kategori_id' => $request->input('kategori') 
+            ]);
+        $doc_id = doc_persyaratan::create($doc)->id;
+        
         }
 
-        $cekbooking = Transaksi::whereDate('tanggal_berkunjung', date('Y-m-d', strtotime($request->tanggal_berkunjung)))->count();
-        $cekbooking = $cekbooking+1;
-        $barcode = 'MBLB'.date("Ymd",strtotime($request->tanggal_berkunjung)).$cekbooking;
         // dd($barcode);
-        if (!empty($request->input('doc'))) {
+        if ($request->hasFile('doc')) {
             $booking = ([
             'kategori_id' => $request->input('kategori'),
             'sesi_id' => $request->input('sesi'),
@@ -117,8 +117,7 @@ class BookingController extends Controller
             'status' => 'belum'
             ]);
         }
-
-        if(empty($request->input('doc'))){
+        else{
             $booking = ([
             'kategori_id' => $request->input('kategori'),
             'sesi_id' => $request->input('sesi'),

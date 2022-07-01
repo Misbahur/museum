@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use App\Models\Transaksi;
+use App\Models\Sesi;
+use App\Models\Kategori;
+use App\Models\Pengunjung;
+use App\Models\doc_persyaratan;
 
 class LaporanController extends Controller
 {
@@ -14,7 +20,8 @@ class LaporanController extends Controller
     public function index()
     {
         //
-        return view('pages.laporan');
+        $bookings = Transaksi::where('status', 'selesai')->orderBy('tanggal_berkunjung', 'DESC')->paginate(15);
+        return view('pages.laporan', ['bookings' => $bookings]);
     }
 
     /**

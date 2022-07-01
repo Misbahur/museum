@@ -24,4 +24,9 @@ class Transaksi extends Model
     {
         return $this->belongsTo(Kategori::class);
     }
+
+    public function doc_persyaratan()
+    {
+        return $this->belongsTo(doc_persyaratan::class);
+    }
 }

@@ -47,7 +47,7 @@
              <div class="col-span-12 lg:col-span-6">
             @include('components.alert')
              </div>
-            <table class="table table-report -mt-2">
+            <table class="table table-report -mt-2 w-full md:w-auto">
                 <thead>
                     <tr>
                         <th class="whitespace-nowrap">Nama</th>
@@ -85,10 +85,13 @@
                                 <div class="text-center font-bold whitespace-nowrap">{{ $item->barcode }}</div>
                             </td>
                             <td>
-                                @if (!empty($item->doc_persyaratan->doc))
-                                    <a href="{{ asset('storage/'.$item->doc_persyaratan->doc) }}">Lihat Dokumen</a>
-                                @else
+                                @empty($item->doc_persyaratan->doc)
                                     <a href="#">Tidak Ada Dokumen</a>
+                                @endempty
+
+                                @if (!empty($item->doc_persyaratan->doc))
+                                    <a href="{{ asset('storage/'.$item->doc_persyaratan->doc) }}" target="_blank">Lihat Dokumen</a>
+
                                 @endif
                             </td>
                             <td class="w-40">

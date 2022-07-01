@@ -53,7 +53,7 @@
                         <th class="text-center whitespace-nowrap">STATUS Booking</th>
                     </tr>
                 </thead>
-                <tbody>
+                 <tbody>
                     @foreach ($bookings as $item)
                         <tr class="intro-x">
                             <td>
@@ -76,10 +76,13 @@
                                 <div class="text-center font-bold whitespace-nowrap">{{ $item->barcode }}</div>
                             </td>
                             <td>
-                                @if ($item->doc_persyaratan->doc)
-                                    <a href="{{ asset('storage/'.$item->doc_persyaratan->doc) }}">Lihat Dokumen</a>
-                                @else
+                                @empty($item->doc_persyaratan->doc)
                                     <a href="#">Tidak Ada Dokumen</a>
+                                @endempty
+
+                                @if (!empty($item->doc_persyaratan->doc))
+                                    <a href="{{ asset('storage/'.$item->doc_persyaratan->doc) }}" target="_blank">Lihat Dokumen</a>
+
                                 @endif
                             </td>
                             <td class="w-40">
@@ -91,6 +94,19 @@
                                     @endif
                                 </div>
                             </td>
+                            <td class="table-report__action w-56">
+                                <form action="{{ route('bookingdelete',$item->id) }}" method="post" >
+                                    @csrf
+                                <div class="flex justify-center items-center">
+                                    <a class="flex items-center mr-3" href="{{ route('bookingedit', $item->id) }}">
+                                        <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit
+                                    </a>
+                                    <button type="submit" class="flex items-center text-theme-6" href="javascript:;">
+                                        <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete
+                                    </button>
+                                </div>
+                                    </form>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -98,15 +114,6 @@
         </div>
         <!-- END: Data List -->
         <!-- BEGIN: Pagination -->
-        <div class="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center">
-            {{ $bookings->links() }}
-            <select class="w-20 form-select box mt-3 sm:mt-0">
-                <option>10</option>
-                <option>25</option>
-                <option>35</option>
-                <option>50</option>
-            </select>
-        </div>
         <!-- END: Pagination -->
     </div>
     <!-- BEGIN: Delete Confirmation Modal -->

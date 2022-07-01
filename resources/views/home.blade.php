@@ -29,16 +29,30 @@
                                         Nama
                                     </label>
                                     <input
-                                        class="focus:border-light-red-300 focus:ring-1 focus:ring-light-red-300 focus:outline-none w-full text-sm text-black placeholder-gray-500 border border-gray-200 rounded-md py-2 px-5"
+                                        class="@error('nama')
+                                            is-invalid
+                                        @enderror focus:ring-1 focus:ring-light-red-300 focus:outline-none w-full text-sm text-black placeholder-gray-500 border border-gray-200 rounded-md py-2 px-5"
                                         id="nama" name="nama" type="text" placeholder="Nama" />
+                                        @error('nama')
+                                            <span class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
                                 </div>
                                 <div data-aos="fade-down" data-aos-delay="200" class="w-full lg:w-2/6 lg:mx-6">
                                     <label class="block mb-2 text-sm font-bold text-gray-700" for="Jumlah orang">
                                         Jumlah Orang
                                     </label>
                                     <input
-                                        class="focus:border-light-red-300 focus:ring-1 focus:ring-light-red-300 focus:outline-none w-full text-sm text-black placeholder-gray-500 border border-gray-200 rounded-md py-2 px-5"
+                                        class="@error('jumlah_orang')
+                                            is-invalid
+                                        @enderror focus:border-light-red-300 focus:ring-1 focus:ring-light-red-300 focus:outline-none w-full text-sm text-black placeholder-gray-500 border border-gray-200 rounded-md py-2 px-5"
                                         id="Jumlah orang" name="jumlah_orang" min="1" max="50" type="number" placeholder="Jumlah orang" />
+                                        @error('jumlah_orang')
+                                            <span class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
                                 </div>
                             </div>
                             <div class="mb-4 lg:flex lg:justify-between">
@@ -47,19 +61,33 @@
                                     Email
                                 </label>
                                 <input
-                                    class="focus:border-light-red-300 focus:ring-1 focus:ring-light-red-300 focus:outline-none w-full text-sm text-black placeholder-gray-500 border border-gray-200 rounded-md py-2 px-5"
+                                    class="@error('email')
+                                            is-invalid
+                                        @enderror focus:border-light-red-300 focus:ring-1 focus:ring-light-red-300 focus:outline-none w-full text-sm text-black placeholder-gray-500 border border-gray-200 rounded-md py-2 px-5"
                                     id="email" name="email" type="email" placeholder="Email" />
+                                    @error('email')
+                                            <span class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
                             </div> 
                             <div data-aos="fade-down" data-aos-delay="400" class="w-full lg:mx-6">
                                 <label class="block mb-2 text-sm font-bold text-gray-700" for="email">
                                     Kategori Kunjungan
                                 </label>
-                                <select id="Categorychoice" name="kategori" onChange="check(this);" class="ocus:border-light-red-300 focus:ring-1 focus:ring-light-red-300 focus:outline-none w-full text-sm text-black placeholder-gray-500 border border-gray-200 rounded-md py-2 px-5" aria-label="Kategori Kunjungan">
+                                <select id="Categorychoice" name="kategori" onChange="check(this);" class="@error('kategori')
+                                            is-invalid
+                                        @enderror focus:border-light-red-300 focus:ring-1 focus:ring-light-red-300 focus:outline-none w-full text-sm text-black placeholder-gray-500 border border-gray-200 rounded-md py-2 px-5" aria-label="Kategori Kunjungan">
                                 <option id="tidak" selected disabled>-- Pilih Kategori --</option>
                                 @foreach ($kategoris as $item)
                                     <option id="{{ $item->doc }}" value="{{ $item->id }}">{{ $item->nama }}</option>
                                 @endforeach
                                 </select>
+                                @error('kategori')
+                                            <span class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
                             </div>                              
                             </div>
                             <div class="mb-4 lg:flex lg:justify-between">
@@ -68,19 +96,33 @@
                                         Tanggal Kunjungan
                                     </label>
                                     <input
-                                        class="focus:border-light-red-300 focus:ring-1 focus:ring-light-red-300 focus:outline-none w-full text-sm text-black placeholder-gray-500 border border-gray-200 rounded-md py-2 px-5"
-                                        id="tanggal_kunjungan" name="tanggal_berkunjung" type="date" placeholder="Tanggal Kunjungan" />
+                                        class="@error('tanggal_berkunjung')
+                                            is-invalid
+                                        @enderror focus:border-light-red-300 focus:ring-1 focus:ring-light-red-300 focus:outline-none w-full text-sm text-black placeholder-gray-500 border border-gray-200 rounded-md py-2 px-5"
+                                        id="tanggal_kunjungan" name="tanggal_berkunjung" type="date" min="{{ $mintanggal }}" placeholder="Tanggal Kunjungan" />
+                                    @error('tanggal_berkunjung')
+                                            <span class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
                                 </div>
                                 <div data-aos="fade-down" data-aos-delay="600" class="w-full lg:mx-6">
                                     <label class="block mb-2 text-sm font-bold text-gray-700" for="sesi">
                                         Sesi Kunjungan
                                     </label>
-                                    <select id="sesi" name="sesi" onChange="check(this);" class="ocus:border-light-red-300 focus:ring-1 focus:ring-light-red-300 focus:outline-none w-full text-sm text-black placeholder-gray-500 border border-gray-200 rounded-md py-2 px-5" aria-label="Sesi Kunjungan Museum">
+                                    <select id="sesi" name="sesi" onChange="check(this);" class="@error('sesi')
+                                            is-invalid
+                                        @enderror focus:border-light-red-300 focus:ring-1 focus:ring-light-red-300 focus:outline-none w-full text-sm text-black placeholder-gray-500 border border-gray-200 rounded-md py-2 px-5" aria-label="Sesi Kunjungan Museum">
                                     <option selected disabled>-- Pilih Sesi --</option>
                                     @foreach ($sesis as $item)
                                         <option value="{{ $item->id }}">{{ $item->nama }}</option>
                                     @endforeach
                                     </select>
+                                    @error('sesi')
+                                            <span class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
                                 </div>
                             </div>
                             <div data-aos="fade-up" data-aos-duration="1000" id="doc" class="mb-4 lg:mx-6">
@@ -88,14 +130,28 @@
                                     Document Pendukung
                                 </label>
                                 <input
-                                    class="focus:border-light-red-300 focus:ring-1 focus:ring-light-red-300 focus:outline-none w-full text-sm text-black placeholder-gray-500 border border-gray-200 rounded-md py-2 px-5"
+                                    class="@error('doc')
+                                            is-invalid
+                                        @enderror focus:border-light-red-300 focus:ring-1 focus:ring-light-red-300 focus:outline-none w-full text-sm text-black placeholder-gray-500 border border-gray-200 rounded-md py-2 px-5"
                                      type="file" name="doc" placeholder="Document Pendukung" />
+                                     @error('doc')
+                                            <span class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
                             </div>
                             <div data-aos="fade-up" data-aos-duration="1500" class="mb-4 lg:mx-6">
                                 <label class="block mb-2 text-sm font-bold text-gray-700" for="alamat">
                                     Alamat
                                 </label>
-                                <textarea class="focus:border-light-red-300 focus:ring-1 focus:ring-light-red-300 focus:outline-none w-full text-sm text-black placeholder-gray-500 border border-gray-200 rounded-md py-5 px-5" name="alamat" id="alamat" cols="90" rows="5"></textarea>
+                                <textarea class="@error('alamat')
+                                            is-invalid
+                                        @enderror focus:border-light-red-300 focus:ring-1 focus:ring-light-red-300 focus:outline-none w-full text-sm text-black placeholder-gray-500 border border-gray-200 rounded-md py-5 px-5" name="alamat" id="alamat" cols="90" rows="5"></textarea>
+                                @error('alamat')
+                                            <span class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
                             </div>
                             <div class="mb-6 text-center lg:mx-6">
                                 <button
@@ -288,4 +344,15 @@
                 class="w-full h-full max-w-md mx-auto"></div>
     </section>
 
+<script>
+const picker = document.getElementById('tanggal_kunjungan');
+picker.addEventListener('input', function(e){
+  var day = new Date(this.value).getUTCDay();
+  if([6,0].includes(day)){
+    e.preventDefault();
+    this.value = '';
+    alert('Mohon Maaf Hari Kunjungan Museum Hanya Hari Kerja');
+  }
+});
+</script>
 @endsection
