@@ -8,11 +8,15 @@ use App\Models\Transaksi;
 use App\Models\Sesi;
 use App\Models\Kategori;
 use App\Models\Pengunjung;
+use App\Models\Buktibayar;
 use App\Models\doc_persyaratan;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\BookingMail;
+use App\Mail\BookingVerif;
+use App\Mail\AdminNotifBooking;
 use Symfony\Component\HttpFoundation\Response;
+use DB;
 
 class BookingController extends Controller
 {
@@ -36,6 +40,34 @@ class BookingController extends Controller
             $booking = Transaksi::where('barcode', $request->input('kode'))->first();
         }
         return view('cek_booking', ['booking' => $booking]);
+    }
+
+    public function retribusi(Request $request, $id)
+    {
+        if($request->hasFile('bukti')) {
+            $filenameWithExt = $request->file('bukti')->getClientOriginalName ();
+            // Get Filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // Get just Extension
+            $extension = $request->file('bukti')->getClientOriginalExtension();
+            // Filename To store
+            $fileNameToStore = $filename. '_'. Carbon::now().'.'.$extension;
+            $path = $request->file('bukti')->storeAs('retribusi', $fileNameToStore, 'public');
+            $bukti = ([
+                'bukti' => $path,
+                ]);
+            $bukti_id = Buktibayar::create($bukti)->id;
+        }
+        $booking = Transaksi::find($id);
+        // dd($booking);
+        $booking->buktibayar_id = $bukti_id;
+        $booking->update();
+
+        if($booking){
+            return redirect()->route('cekkode')->with(['success' => 'Data Berhasil di Upload ! Hubungi Admin Bila Tidak ada Email Konfirmasi selama 3x24 Jam']);
+        }else{
+            return redirect()->route('cekkode')->with(['danger' => 'Data Tidak Terekam!']);
+        }
     }
 
     public function index()
@@ -130,6 +162,10 @@ class BookingController extends Controller
         }
         $booking = Transaksi::create($booking)->id;
 
+        $cariharga = Kategori::where('id', $request->kategori)->pluck('harga');
+        // dd($cariharga);
+        $harga = $request->jumlah_orang*$cariharga[0];
+
         $mailData = [
             'nama' => $request->nama,
             'email' => $request->email,
@@ -138,15 +174,20 @@ class BookingController extends Controller
             'sesi' => $request->input('sesi'),
             'pengunjung_id' => $pengunjung_id,
             'barcode' => $barcode,
+            'harga' => $harga,
             'tanggal_berkunjung' => $request->input('tanggal_berkunjung'),
             'jumlah_pengunjung' => $request->input('jumlah_orang'),
-            'status' => 'belum'
+            'status' => 'belum',
+            // 'upload_bukti' => url('uploadbuktibayar/'.Crypt::encryptString($booking))
         ];
         // $qrcode = QrCode::size(250)->generate($barcode);
         Mail::to($request->input('email'))->send(new BookingMail($mailData));
+        Mail::to('jingga.banyuwangi@gmail.com')->send(new AdminNotifBooking);
+
+
 
         if($booking){
-            return redirect()->route('booking')->with(['success' => 'Data Booking An. '.$request->input('nama').' berhasil terekam oleh server'.' Kode Booking anda '.$barcode]);
+            return redirect()->route('booking')->with(['success' => 'Data Booking An. '.$request->input('nama').' berhasil terekam oleh server'.' Kode Booking anda '.$barcode.' Biaya Retribusi yang harus di Bayar sejumlah = Rp. '.number_format($harga).' Silahkan Cek Email Anda']);
         }else{
             return redirect()->route('booking')->with(['danger' => 'Data Tidak Terekam!']);
         }
@@ -204,6 +245,42 @@ class BookingController extends Controller
             unset($booking->sesi_id);
         }
         $booking->update();
+
+        if($booking){
+            return redirect()->route('daftarbooking')->with(['success' => 'Data Berhasil Di update!']);
+        }else{
+            return redirect()->route('daftarbooking')->with(['danger' => 'Data Tidak Terekam!']);
+        }
+    }
+    public function validasi($id)
+    {
+        $booking = Transaksi::find($id);
+        $booking->status = 'sudah';
+        $booking->update();
+
+        $data = DB::table('transaksis')->where('transaksis.id', $booking['id'])
+        ->join('kategoris', 'transaksis.kategori_id', '=', 'kategoris.id')
+        ->join('sesis', 'transaksis.sesi_id', '=', 'sesis.id')
+        ->join('pengunjungs', 'transaksis.pengunjung_id', '=', 'pengunjungs.id')
+        ->select('transaksis.*', 'kategoris.nama as kategori_nama', 'sesis.nama as sesi_nama', 'sesis.waktu_awal as waktu1', 'sesis.waktu_akhir as waktu2', 'pengunjungs.*')
+        ->first();
+        // dd($data);
+
+        $mailData = [
+            'nama' => $data->nama,
+            'email' => $data->email,
+            'alamat' => $data->alamat,
+            'kategori' => $data->kategori_nama,
+            'sesi' => $data->sesi_nama,
+            'waktu1' => $data->waktu1,
+            'waktu2' => $data->waktu2,
+            'barcode' => $data->barcode,
+            'tanggal_berkunjung' => $data->tanggal_berkunjung,
+            'jumlah_pengunjung' => $data->jumlah_pengunjung,
+            'status' => 'sudah',
+        ];
+
+        Mail::to($data->email)->send(new BookingVerif($mailData));
 
         if($booking){
             return redirect()->route('daftarbooking')->with(['success' => 'Data Berhasil Di update!']);

@@ -64,7 +64,7 @@
                     </div>
                 </div>
                 <div class="text-right mt-5">
-                    <button type="button" action="{{ route('daftarbooking') }}" class="btn btn-outline-secondary w-24 mr-1">Cancel</button>
+                    <a href="{{ route('daftarbooking') }}" class="btn btn-outline-secondary w-24 mr-1">Cancel</a>
                     <button type="submit" class="btn btn-primary w-24">Save</button>
                 </div>
                 </form>

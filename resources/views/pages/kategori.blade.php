@@ -50,7 +50,8 @@
                     <tr>
                         <th class="whitespace-nowrap">NAMA KATEGORI</th>
                         <th class="text-center whitespace-nowrap">JENIS</th>
-                        <th class="text-center whitespace-nowrap">STATUS</th>
+                        <th class="text-center whitespace-nowrap">Document</th>
+                        <th class="text-center whitespace-nowrap">Retribusi</th>
                         <th class="text-center whitespace-nowrap">ACTIONS</th>
                     </tr>
                 </thead>
@@ -66,6 +67,7 @@
                                     <i data-feather="check-square" class="w-4 h-4 mr-2"></i> {{ $item->doc }}
                                 </div>
                             </td>
+                            <td class="text-center">{{number_format($item->harga) }}</td>
                             <td class="table-report__action w-56">
                                 <form action="{{ route('kategoridel',$item->id) }}" method="post" >
                                     @csrf
@@ -97,7 +99,7 @@
                         <input id="crud-form-1" name="nama" type="text" class="form-control w-full" placeholder="Input nama kategori">
                     </div>
                     <div class="mt-3">
-                        <label for="crud-form-2" class="form-label">Jenis</label>
+                        <label for="crud-form-2" class="form-label">Jenis Kunjungan</label>
                         <select data-placeholder="-- Pilih satu --" name="jenis" class="tail-select w-full" id="crud-form-2">
                             <option value="0" selected disabled>-- Pilih satu --</option>
                             <option value="rombongan">Rombongan atau Kelompok</option>
@@ -105,12 +107,16 @@
                         </select>
                     </div>
                     <div class="mt-3">
-                        <label for="crud-form-2" class="form-label">Jenis</label>
+                        <label for="crud-form-2" class="form-label">Document</label>
                         <select data-placeholder="-- Pilih satu --" name="doc" class="tail-select w-full" id="crud-form-2">
                             <option value="0" selected disabled>-- Pilih satu --</option>
                             <option value="ya">Menyertakan Document</option>
                             <option value="tidak">Tidak Menyertakan Document</option>
                         </select>
+                    </div>
+                    <div class="mt-3">
+                        <label for="crud-form-1" class="form-label">Retribusi</label>
+                        <input id="crud-form-1" name="harga" type="number" class="form-control w-full" placeholder="Input biaya Retribusi">
                     </div>
                     <div class="text-right mt-5">
                         <button type="button" action="{{ route('kategori') }}" class="btn btn-outline-secondary w-24 mr-1">Cancel</button>

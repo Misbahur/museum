@@ -19,6 +19,7 @@ class CreateTransaksisTable extends Migration
             $table->unSignedBigInteger('sesi_id');
             $table->unsignedBigInteger('pengunjung_id');
             $table->unsignedBigInteger('doc_persyaratan_id')->nullable();
+            $table->unsignedBigInteger('buktibayar_id')->nullable();
             $table->string('barcode');
             $table->date('tanggal_berkunjung');
             $table->integer('jumlah_pengunjung');

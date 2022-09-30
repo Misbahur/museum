@@ -51,15 +51,14 @@
                 <thead>
                     <tr>
                         <th class="whitespace-nowrap">Nama</th>
-                        <th class="whitespace-nowrap">Email</th>
-                        <th class="text-center whitespace-nowrap">Tanggal Kunjungan</th>
-                        <th class="text-center whitespace-nowrap">Kategori Pengunjung</th>
-                        <th class="text-center whitespace-nowrap">Sesi Kunjungan</th>
-                        <th class="text-center whitespace-nowrap">Jumlah Pengunjung</th>
-                        <th class="text-center whitespace-nowrap">Kode Booking</th>
-                        <th class="text-center whitespace-nowrap">Dokumen</th>
-                        <th class="text-center whitespace-nowrap">STATUS Booking</th>
-                        <th class="text-center whitespace-nowrap">ACTIONS</th>
+                        <th class="whitespace-nowrap">Tanggal Kunjungan</th>
+                        <th class="whitespace-nowrap">Kategori Pengunjung</th>
+                        <th class="whitespace-nowrap">Sesi Kunjungan</th>
+                        <th class="whitespace-nowrap">Jumlah Pengunjung</th>
+                        <th class="whitespace-nowrap">Bukti Bayar</th>
+                        <th class="whitespace-nowrap">Dokumen</th>
+                        <th class="whitespace-nowrap">STATUS Booking</th>
+                        <th class="whitespace-nowrap">ACTIONS</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,9 +66,6 @@
                         <tr class="intro-x">
                             <td>
                                 <div class="font-medium text-gray-700 whitespace-nowrap">{{ $item->pengunjung->nama }}</div>
-                            </td>
-                            <td>
-                                <div class="font-medium text-gray-700 whitespace-nowrap">{{ $item->pengunjung->email }}</div>
                             </td>
                             <td>
                                 <div class="font-medium text-gray-700 whitespace-nowrap">{{ $item->tanggal_berkunjung }}</div>
@@ -82,7 +78,14 @@
                             </td>
                             <td class="text-center">{{ $item->jumlah_pengunjung }}</td>
                             <td>
-                                <div class="text-center font-bold whitespace-nowrap">{{ $item->barcode }}</div>
+                                @empty($item->buktibayar->bukti)
+                                    <a href="#">Tidak Ada Dokumen</a>
+                                @endempty
+
+                                @if (!empty($item->buktibayar->bukti))
+                                    <a href="{{ asset('storage/'.$item->buktibayar->bukti) }}" target="_blank">Lihat Retribusi</a>
+
+                                @endif
                             </td>
                             <td>
                                 @empty($item->doc_persyaratan->doc)
@@ -109,6 +112,9 @@
                                 <div class="flex justify-center items-center">
                                     <a class="flex items-center mr-3" href="{{ route('bookingedit', $item->id) }}">
                                         <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Edit
+                                    </a>
+                                    <a class="flex items-center mr-3 text-theme-9" href="{{ route('bookkonfirmasi', $item->id) }}">
+                                        <i data-feather="check-square" class="w-4 h-4 mr-1"></i> Validasi
                                     </a>
                                     <button type="submit" class="flex items-center text-theme-6" href="javascript:;">
                                         <i data-feather="trash-2" class="w-4 h-4 mr-1"></i> Delete

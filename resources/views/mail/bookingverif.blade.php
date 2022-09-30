@@ -1,6 +1,6 @@
 @extends('mail.layouts.base')
 
-@section('title', 'Booking anda menunggu persetujuan !')
+@section('title', 'Booking Telah Disetujui !')
 
 @section('content')
 <center style="width: 100%; background-color: #f5f6fa;">
@@ -21,35 +21,22 @@
                     <tbody>
                         <tr>
                             <td style="padding: 30px 30px 15px 30px;">
-                                <h2 style="color: black; font-weight: 600; margin: 0;">Booking Anda Berhasil</h2>
+                                <h2 style="color: black; font-weight: 600; margin: 0;">Booking Anda Disetujui</h2>
                             </td>
                         </tr>
                         <tr>
                             <td style="padding: 0 30px 20px;word-wrap: break-word">
                                 <p style="margin-bottom: 10px;">Hi {{  $mailData['nama'] }},</p>
-                                <p style="margin-bottom: 10px;">Selamat ! Booking anda untuk tanggal kunjungan {{ date('d-m-Y', strtotime($mailData['tanggal_berkunjung'])) }} telah kami terima, <strong>Silahkan Melakukan Pembayaran Retribusi Ke No.Rek Diabawah senilai Rp. {{ number_format($mailData['harga']) }}  dan Tunggu persetujuan terlebih dahulu</strong></p>
+                                <p style="margin-bottom: 10px;">Selamat ! Booking anda untuk tanggal kunjungan {{ date('d-m-Y', strtotime($mailData['tanggal_berkunjung'])) }} telah kami Konfirmasi, <strong> Silahkan Berkunjung dengan Ketentuan berikut ini</strong></p>
                                 <div style="margin-top: 10px">
-                                    <strong>
-                                        Data Booking
-                                    </strong>
                                     <ul style="list-style-type: none; padding-left: 0; color: black;">
                                         <li>Nama : {{ $mailData['nama'] }}</li>
                                         <li>Alamat : {{ $mailData['alamat'] }}</li>
-                                        {{-- <li>Kategori Kunjungan : {{ $mailData['kategori'] }}</li>
-                                        <li>Sesi Kunjungan : {{ $mailData['sesi'] }}</li> --}}
+                                        <li>Kategori Kunjungan : {{ $mailData['kategori'] }}</li>
+                                        <li>Sesi Kunjungan : {{ $mailData['sesi'] }}</li>
+                                        <li>Jam Kunjung : **{{ $mailData['waktu1'] }} - {{ $mailData['waktu2'] }} WIB**</li>
                                         <li>Jumlah Pengunjung : {{ $mailData['jumlah_pengunjung'] }}</li>
-                                        <li>Status Verif Kunjungan: {{ $mailData['status'] }}</li>
-                                    </ul>
-                                </div>
-                                <div style="margin-top: 10px">
-                                    <strong>
-                                        Data Bank
-                                    </strong>
-                                    <ul style="list-style-type: none; padding-left: 0; color: black;">
-                                        <li>Bank : Bank Jatim</li>
-                                        <li>Atas Nama : Kas Umum Daerah Banyuwangi</li>
-                                        <li>No Rekening : 0021000700</li>
-                                        <li>Nilai Yang Harus Di Transfer : Rp. {{ number_format($mailData['harga']) }} </li>
+                                        <li>Status: {{ $mailData['status'] }} Disetujui</li>
                                     </ul>
                                 </div>
                                 <center>
@@ -60,7 +47,7 @@
                                     <img src="{!!$message->embedData(QrCode::format('png')->generate($mailData['barcode']), 'QrCode.png', 'image/png')!!}">
                                     </div>
                                     <p style="color: black; margin-top:10px; margin-bottom: 10px;">A/n. {{ $mailData['nama'] }}</p>
-                                    <a href="{{ route('cekkode',['kode' => $mailData['barcode']] )}}" style="background-color:#50C594;border-radius:4px;color:#ffffff;display:inline-block;font-size:13px;font-weight:600;line-height:44px;text-align:center;text-decoration:none;text-transform: uppercase; padding: 0 30px; margin-bottom: 30px;">Upload Bukti Retribusi</a>
+                                    {{-- <a href="{{ route('cekkode',['kode' => $mailData['barcode']] )}}" style="background-color:#50C594;border-radius:4px;color:#ffffff;display:inline-block;font-size:13px;font-weight:600;line-height:44px;text-align:center;text-decoration:none;text-transform: uppercase; padding: 0 30px; margin-bottom: 30px;">Upload Bukti Retribusi</a> --}}
                                 </center>
                             </td>
                         </tr>

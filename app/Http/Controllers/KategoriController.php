@@ -42,13 +42,15 @@ class KategoriController extends Controller
         $request->validate([
             'nama' => 'required',
             'jenis' => 'required',
-            'doc' => 'required'
+            'doc' => 'required',
+            'harga' => 'required'
         ]);
 
         $kategori = new Kategori;
         $kategori->nama = $request->input('nama');
         $kategori->jenis = $request->input('jenis');
         $kategori->doc = $request->input('doc');
+        $kategori->harga = $request->input('harga');
         $kategori->save();
 
 
@@ -97,13 +99,15 @@ class KategoriController extends Controller
         $request->validate([
             'nama' => 'required',
             'jenis' => 'required',
-            'doc' => 'required'
+            'doc' => 'required',
+            'harga' => 'required',
         ]);
 
         $kategori = Kategori::find($id);
         $kategori->nama = $request->input('nama');
         $kategori->jenis = $request->input('jenis');
         $kategori->doc = $request->input('doc');
+        $kategori->harga = $request->input('harga');
         $kategori->update();
 
 

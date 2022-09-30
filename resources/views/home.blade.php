@@ -80,7 +80,7 @@
                                         @enderror focus:border-light-red-300 focus:ring-1 focus:ring-light-red-300 focus:outline-none w-full text-sm text-black placeholder-gray-500 border border-gray-200 rounded-md py-2 px-5" aria-label="Kategori Kunjungan">
                                 <option id="tidak" selected disabled>-- Pilih Kategori --</option>
                                 @foreach ($kategoris as $item)
-                                    <option id="{{ $item->doc }}" value="{{ $item->id }}">{{ $item->nama }}</option>
+                                    <option id="{{ $item->doc }}" value="{{ $item->id }}">{{ $item->nama }} - Rp. {{ number_format($item->harga) }}</option>
                                 @endforeach
                                 </select>
                                 @error('kategori')
