@@ -16,7 +16,8 @@ use App\Mail\BookingMail;
 use App\Mail\BookingVerif;
 use App\Mail\AdminNotifBooking;
 use Symfony\Component\HttpFoundation\Response;
-use DB;
+use Illuminate\Support\Facades\DB as FacadesDB;
+use Illuminate\Support\Facades\Http;
 
 class BookingController extends Controller
 {
@@ -258,11 +259,11 @@ class BookingController extends Controller
         $booking->status = 'sudah';
         $booking->update();
 
-        $data = DB::table('transaksis')->where('transaksis.id', $booking['id'])
+        $data = FacadesDB::table('transaksis')->where('transaksis.id', $booking['id'])
         ->join('kategoris', 'transaksis.kategori_id', '=', 'kategoris.id')
         ->join('sesis', 'transaksis.sesi_id', '=', 'sesis.id')
         ->join('pengunjungs', 'transaksis.pengunjung_id', '=', 'pengunjungs.id')
-        ->select('transaksis.*', 'kategoris.nama as kategori_nama', 'sesis.nama as sesi_nama', 'sesis.waktu_awal as waktu1', 'sesis.waktu_akhir as waktu2', 'pengunjungs.*')
+        ->select('transaksis.*', 'kategoris.nama as kategori_nama', 'kategoris.harga as harga', 'sesis.nama as sesi_nama', 'sesis.waktu_awal as waktu1', 'sesis.waktu_akhir as waktu2', 'pengunjungs.*')
         ->first();
         // dd($data);
 
@@ -281,6 +282,44 @@ class BookingController extends Controller
         ];
 
         Mail::to($data->email)->send(new BookingVerif($mailData));
+
+        // $r = Psr7\Utils::tryFopen('POST', 'https://banyuwangitourism.com/api/tax-destination/create', [
+        //     'invoice' => $data->barcode,
+        //     'destination_id' => 65,
+        //     'jns_tiket' => "DOMESTIK",
+        //     'jml_orang' => $data->jumlah_pengunjung,
+        //     'jns_kendaraan' => "JALAN",
+        //     'jml_kendaraan' => 0,
+        //     'harga_tiket' => $data->harga,
+        //     'harga_parkir' => 0,
+        //     'created_at' => Carbon::now()->format("Y-m-d")
+        // ]);
+        if ($data->kategori_nama == "Mancanegara") {
+            $response = Http::post('https://banyuwangitourism.com/api/tax-destination/create', [
+                'invoice' => $data->barcode,
+                'destination_id' => 65,
+                'jns_tiket' => "MANCA",
+                'jml_orang' => $data->jumlah_pengunjung,
+                'jns_kendaraan' => "JALAN",
+                'jml_kendaraan' => 0,
+                'harga_tiket' => $data->harga,
+                'harga_parkir' => 0,
+                'created_at' => Carbon::now()->format("Y-m-d")
+            ]);
+        } else {
+            $response = Http::post('https://banyuwangitourism.com/api/tax-destination/create', [
+                'invoice' => $data->barcode,
+                'destination_id' => 65,
+                'jns_tiket' => "DOMESTIK",
+                'jml_orang' => $data->jumlah_pengunjung,
+                'jns_kendaraan' => "JALAN",
+                'jml_kendaraan' => 0,
+                'harga_tiket' => $data->harga,
+                'harga_parkir' => 0,
+                'created_at' => Carbon::now()->format("Y-m-d")
+            ]);
+        }
+        // dd($response->successful());
 
         if($booking){
             return redirect()->route('daftarbooking')->with(['success' => 'Data Berhasil Di update!']);
