@@ -32,7 +32,7 @@ class AdminNotifBooking extends Mailable
             ->view('mail.test')
             ->with(
                 [
-                    'nama' => 'Misbahur Notif Ke Mas Bayu Cepetan Tinjau',
+                    'nama' => 'Misbahur Notif Ke Mas Bayu Tinjau Ada Booking Museum',
                     'website' => 'https://museum.banyuwangikab.go.id/login',
                 ]);
     }
